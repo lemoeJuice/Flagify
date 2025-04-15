@@ -80,6 +80,21 @@
       height: 100%;
       width: 100%;
     }
+
+    .link {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      font-weight: bold;
+    }
+
+    .link:hover {
+      background-color: #45a049;
+    }
   </style>
 </head>
 
@@ -92,15 +107,15 @@
       </label>
       <button id="openMask">预览</button>
       <button id="downloadBtn">保存</button>
+      <a class="link" href="https://github.com/lemoeJuice/Flagify" target="_blank">项目地址</a>
     </div>
     <div id="container">
       <canvas id="canvas"></canvas>
       <canvas id="mask"></canvas>
     </div>
   </div>
-  
+
   <script type="module" src="/src/main.ts"></script>
-  <script type="module" src="/src/size.ts"></script>
 </body>
 
 </html>

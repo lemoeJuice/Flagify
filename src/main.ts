@@ -2,7 +2,7 @@ const fileInput = document.getElementById("fileInput") as HTMLInputElement;
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 const ctx = canvas.getContext("2d")!;
 
-import "./size";
+import "./resize";
 import "./mask";
 import "./save";
 
