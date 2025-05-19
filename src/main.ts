@@ -1,6 +1,7 @@
 const fileInput = document.getElementById("fileInput") as HTMLInputElement;
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 const ctx = canvas.getContext("2d")!;
+const modeBtn = document.getElementById("switchMode") as HTMLButtonElement;
 
 import "./resize";
 import "./mask";
@@ -17,15 +18,8 @@ function loadImage(src: string): Promise<HTMLImageElement> {
 
 let bg: HTMLImageElement;
 
-window.addEventListener('DOMContentLoaded', async () => {
-  bg = await loadImage("/transgender_flag.png")
-  canvas.width = bg.width;
-  canvas.height = bg.height;
-  ctx.drawImage(bg, 0, 0, bg.width, bg.height);
-});
-
-fileInput.addEventListener("change", (event) => {
-  const file = (event.target as HTMLInputElement).files?.[0];
+async function drawImage() {
+  const file = fileInput.files?.[0];
   if (!file) return;
 
   const reader = new FileReader();
@@ -48,12 +42,32 @@ fileInput.addEventListener("change", (event) => {
       // 然后绘制圆形头像覆盖在上面
       ctx.save();
       ctx.beginPath();
-      ctx.arc(size * 0.5, size * 0.5, size * 0.45, 0, Math.PI * 2);
+
+      const radius = mode ? 0.45 : 0.5;
+
+      ctx.arc(size * 0.5, size * 0.5, size * radius, 0, Math.PI * 2);
       ctx.clip();
-      ctx.drawImage(img, size * 0.05, size * 0.05, size * 0.9, size * 0.9);
+      ctx.drawImage(img, size * (0.5 - radius), size * (0.5 - radius), size * 2 * radius, size * 2 * radius);
       ctx.restore();
     };
     img.src = reader.result as string;
   };
   reader.readAsDataURL(file);
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+  bg = await loadImage("/transgender_flag.png")
+  canvas.width = bg.width;
+  canvas.height = bg.height;
+  ctx.drawImage(bg, 0, 0, bg.width, bg.height);
 });
+
+
+let mode: boolean = false;
+
+modeBtn.addEventListener("click", () => {
+  mode = !mode;
+  drawImage();
+})
+
+fileInput.addEventListener("change", drawImage);
